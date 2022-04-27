@@ -12,10 +12,7 @@ class actions:
     # Help
     def h():
         # help message
-        help_msg = """Mango - Help
-mango init <name> - Initialize mango in the current directory.
-mango compile <output file name> - Compile <project name>/src/main.py to <project name>/build-output/<output file name>
-"""
+        help_msg = """Mango - Help\nmango init <name> - Initialize mango in the current directory.\nmango compile <output file name> - Compile <project name>/src/main.py to <project name>/build-output/<output file name>"""
         # Print message
         print(help_msg)
     def init():
@@ -29,15 +26,31 @@ mango compile <output file name> - Compile <project name>/src/main.py to <projec
             # make .mangoconf
             confdata = "n={0}"
             mc = open("./.mangoconf", 'w').write(confdata)
-            # close mc
-            mc.close()
             # make src directory
             os.system("mkdir ./src")
+            # make main.py in src dir
+            os.system("touch ./src/main.py")
             # print "Done!"
             print("Done!")
+    def comp():
+        if len(sys.argv) >= 3:
+            print("Compiling....")
+            # make build dir
+            os.system("mkdir build-output")
+            # start build
+            os.system("cd build-output && python3 -m nuitka --standalone --onefile ../src/main.py -o {0}".format(sys.argv[2]))
+        else:
+            print("Error: You didn't complete the command!")
 # detect if there are arguements to the cmd, otherwise show help msg.
 if len(sys.argv) >= 2:
+    # detect what action u wanna do
     if sys.argv[1] == 'init':
         actions.init()
+    elif sys.argv[1] == 'help':
+        actions.h()
+    elif sys.argv[1] == 'compile':
+        actions.comp()
+    else:
+        actions.h()
 else:
     actions.h()
