@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+#       -- MANGO --
+#  - manage your code. -
+
+# Import sys
+import sys
+# Import os
+import os
+# Define actions class
+class actions:
+    # Help
+    def h():
+        # help message
+        help_msg = """Mango - Help
+mango init <name> - Initialize mango in the current directory.
+mango compile <output file name> - Compile <project name>/src/main.py to <project name>/build-output/<output file name>
+"""
+        # Print message
+        print(help_msg)
+    def init():
+        # if you forgot name of project, dont init.
+        if len(sys.argv) != 3:
+            print("Error: You forgot the project name!")
+        elif len(sys.argv) > 3:
+            print("Warning: You added extra arguements...")
+        else:
+            print("Initializing project {0}....".format(sys.argv[2]))
+            # make .mangoconf
+            confdata = "n={0}"
+            mc = open("./.mangoconf", 'w').write(confdata)
+            # close mc
+            mc.close()
+            # make src directory
+            os.system("mkdir ./src")
+            # print "Done!"
+            print("Done!")
+# detect if there are arguements to the cmd, otherwise show help msg.
+if len(sys.argv) >= 2:
+    if sys.argv[1] == 'init':
+        actions.init()
+else:
+    actions.h()
